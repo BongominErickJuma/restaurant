@@ -20,7 +20,7 @@ const Home = () => {
               </h2>
               <p>Delivering great food for more than 18 years!</p>
               <div className="d-flex mt-4">
-                <Link to="/menu" className="cta-btn">
+                <Link to="/restaurant/menu" className="cta-btn">
                   Our Menu
                 </Link>
                 <a href="#book-a-table" className="cta-btn">

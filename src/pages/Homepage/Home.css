@@ -57,7 +57,7 @@
   text-decoration: none;
   letter-spacing: 1px;
   display: inline-block;
-  padding: 8px 30px;
+  padding: 0.5em 1.75em;
   border-radius: 50px;
   transition: 0.3s;
   flex-shrink: 0;
