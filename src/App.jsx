@@ -11,13 +11,16 @@ import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Homepage/Home";
 import Footer from "./components/Footer/Footer";
 import Detail from "./pages/Detail/Detail";
+import Login from "./pages/Login/Login";
+import SignUp from "./pages/SignUp/SignUp";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 function App() {
   const { showModal } = useCart();
   return (
     <>
       <Router>
-        <form>
+        <div>
           <Navbar />
           <div className="main">
             <Routes>
@@ -42,11 +45,18 @@ function App() {
               />
               <Route exact path="/restaurant/cart" element={<Cart />} />
               <Route exact path="/restaurant/detail" element={<Detail />} />
+              <Route exact path="/restaurant/signup" element={<SignUp />} />
+              <Route exact path="/restaurant/login" element={<Login />} />
+              <Route
+                exact
+                path="/restaurant/dashboard"
+                element={<Dashboard />}
+              />
               <Route exact path="*" element={<h1>Page not found</h1>} />
             </Routes>
           </div>
           <Footer />
-        </form>
+        </div>
 
         {showModal && <ConfirmationModal />}
       </Router>

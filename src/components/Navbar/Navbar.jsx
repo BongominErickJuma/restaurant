@@ -70,6 +70,12 @@ const Navbar = () => {
             </Link>
           </li>
         </ul>
+        <Link
+          to="/restaurant/login"
+          className="btn bg-danger text-white fs-5 me-3"
+        >
+          Sign In
+        </Link>
         <i
           className={`mobile-nav-toggle bi ${
             isSidebarToggled ? "bi-x" : "bi-list"

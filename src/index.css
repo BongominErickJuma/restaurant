@@ -101,3 +101,10 @@ body {
 .main {
   min-height: 100dvh;
 }
+
+.btn-primary {
+  background-color: var(--green) !important;
+  color: var(--rose-50) !important;
+  border-width: 0 !important;
+  font-size: 1.4rem;
+}
