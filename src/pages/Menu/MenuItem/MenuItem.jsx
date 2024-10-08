@@ -15,10 +15,11 @@ function MenuItem({ menu }) {
   return (
     <li className="menu">
       <picture>
-        <source media="(max-width: 425px)" srcSet={menu.image.mobile} />
-        <source media="(min-width: 768px)" srcSet={menu.image.tablet} />
-        <source media="(min-width: 1024px)" srcSet={menu.image.desktop} />
-        <img className="menu__image" src={menu.image.desktop} alt={menu.name} />
+        <img
+          className="menu__image"
+          src={`${import.meta.env.VITE_IMAGE}/${menu.image}`}
+          alt={menu.name}
+        />
       </picture>
       {count < 1 ? (
         <AddToCartBtn menu={menu} />
@@ -27,7 +28,7 @@ function MenuItem({ menu }) {
       )}
       <article className="menu__text">
         <p className={`menu__name para-1`}>{menu.name}</p>
-        <p className={`menu__price para-1`}>${menu.price.toFixed(2)}</p>
+        <p className={`menu__price para-1`}>${menu.price}</p>
       </article>
     </li>
   );

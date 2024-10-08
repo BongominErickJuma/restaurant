@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Dashboard.css";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const [balanceVisible, setBalanceVisible] = useState(false);
@@ -9,6 +10,8 @@ function Dashboard() {
     "https://via.placeholder.com/80"
   );
   const [dragging, setDragging] = useState(false);
+
+  const navigate = useNavigate();
 
   const toggleBalanceVisibility = () => {
     setBalanceVisible(!balanceVisible);
@@ -43,6 +46,12 @@ function Dashboard() {
     e.preventDefault();
     setDragging(false);
     handleImageChange(e);
+  };
+
+  const handleLogout = (e) => {
+    localStorage.removeItem("customer_token");
+    window.location.reload();
+    navigate("/restaurant");
   };
 
   return (
@@ -81,7 +90,12 @@ function Dashboard() {
               <div className="w-100">
                 <div className="card h-100 ">
                   <div className="card-body d-flex flex-column align-items-center justify-content-center">
-                    <button className="btn btn-danger w-100">Logout</button>
+                    <button
+                      className="btn btn-danger w-100"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </button>
                   </div>
                 </div>
               </div>

@@ -9,18 +9,28 @@ const Navbar = () => {
   const prevCartLength = useRef(cart.length);
   const [isSidebarToggled, setIsSidebarToggled] = useState(false);
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Default to false
+
   const handleToggleSideBar = () => {
     setIsSidebarToggled(!isSidebarToggled);
   };
 
   useEffect(() => {
+    const customer = localStorage.getItem("customer_token");
+
+    if (customer) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []); // Only run on initial render
+
+  useEffect(() => {
     if (cart.length > prevCartLength.current) {
-      // Add the animation class when cart length increases
       cartRef.current.classList.add("cartShake");
-      // Remove the animation class after the animation is complete
       setTimeout(() => {
         cartRef.current.classList.remove("cartShake");
-      }, 400); // Adjust the timeout to match the animation duration
+      }, 400);
     }
     prevCartLength.current = cart.length;
   }, [cart.length]);
@@ -49,7 +59,6 @@ const Navbar = () => {
               src={`${import.meta.env.BASE_URL}/images/icon-add-to-cart.svg`}
               alt="icon add to cart"
             />
-
             <span className="cartCount">{cart.length}</span>
           </Link>
         </div>
@@ -70,12 +79,22 @@ const Navbar = () => {
             </Link>
           </li>
         </ul>
-        <Link
-          to="/restaurant/login"
-          className="btn bg-danger text-white fs-5 me-3"
-        >
-          Sign In
-        </Link>
+        {isLoggedIn ? (
+          <Link
+            to="/restaurant/dashboard"
+            className="para-1 me-3 text-decoration-none text-black"
+          >
+            Dashboard
+          </Link>
+        ) : (
+          <Link
+            to="/restaurant/login"
+            className="btn bg-danger text-white fs-5 me-3"
+          >
+            Sign In
+          </Link>
+        )}
+
         <i
           className={`mobile-nav-toggle bi ${
             isSidebarToggled ? "bi-x" : "bi-list"

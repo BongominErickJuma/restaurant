@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/UI/Forms/Input";
-import useFetch from "../../useFetch";
-
+import useFetch from "../../hooks/useFetch";
 const SignUp = () => {
   // state to hold inputs
   const [formData, setFormData] = useState({

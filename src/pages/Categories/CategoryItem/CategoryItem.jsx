@@ -6,18 +6,15 @@ function CategoryItem({ category }) {
     <Link to="/restaurant/detail" state={category}>
       <li className="category">
         <picture>
-          <source media="(max-width: 425px)" srcSet={category.image.mobile} />
-          <source media="(min-width: 768px)" srcSet={category.image.tablet} />
-          <source media="(min-width: 1024px)" srcSet={category.image.desktop} />
           <img
             className="category__image"
-            src={category.image.desktop}
+            src={`${import.meta.env.VITE_IMAGE}/${category.image}`}
             alt={category.name}
           />
         </picture>
 
         <article className="category__text">
-          <p className={`category__name heading-1`}>{category.category}</p>
+          <p className={`category__name heading-1`}>{category.name}</p>
         </article>
       </li>
     </Link>

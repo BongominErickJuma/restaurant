@@ -2,19 +2,17 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import Input from "../../components/UI/Forms/Input";
-import useFetch from "../../useFetch";
+import useFetch from "../../hooks/useFetch";
 
 const Login = () => {
   const navigate = useNavigate(); // Hook to programmatically navigate
 
+  const [submitData, setSubmitData] = useState(false);
   // state to handle form data
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
-  // state to trigger form submission
-  const [submitData, setSubmitData] = useState(false);
 
   // capture the data
   const handleChange = (event) => {
@@ -30,34 +28,21 @@ const Login = () => {
     setSubmitData(true);
   };
 
-  // Use the hook conditionally based on submitData
   const { data, error, loading } = useFetch(
-    submitData ? "https://fakestoreapi.com/auth/login" : null,
+    submitData ? import.meta.env.VITE_LOGIN : null,
     {
       method: "POST",
-      body: JSON.stringify({
-        username: "mor_2314", // use test credentials
-        password: "83r5^_",
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
+      body: JSON.stringify(formData),
+      headers: { "Content-Type": "application/json" },
     }
   );
 
   // Handle response and redirect
   useEffect(() => {
     if (data) {
-      // Store the token in local storage
-      localStorage.setItem("access_token", data.access_token);
       setSubmitData(false);
-
+      localStorage.setItem("customer_token", data.access_token);
       navigate("/restaurant/dashboard");
-    }
-
-    if (error) {
-      // Reset submitData to false in case of error
-      setSubmitData(false);
     }
   }, [data, error, navigate]);
 

@@ -1,36 +1,35 @@
-import { useState } from "react";
-import { useCallback } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import CategoryItem from "../CategoryItem/CategoryItem";
 import "./CategoryList.css";
+import useFetch from "../../../hooks/useFetch";
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
 
-  const fetchCategories = useCallback(async () => {
-    try {
-      // const res = await fetch(BASE_URL);
-      // const data = await res.json();
-      // setMenu(data);
+  const formData = {
+    perPage: "50",
+    orderBy: "asc",
+  };
 
-      const res = await fetch(`${import.meta.env.BASE_URL}/data/data.json`);
-      const data = await res.json();
-      setCategories(data.menu);
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
-
+  const { data, error, loading } = useFetch(import.meta.env.VITE_CATEGORIES, {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: { "Content-Type": "application/json" },
+  });
   useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
+    if (data) {
+      setCategories(data.results.data);
+      console.log(data.results.data);
+    }
+  }, [data]);
 
   return (
     <>
       <ul className="menuList">
-        {categories.map((menuItem) => (
-          <CategoryItem key={menuItem.name} category={menuItem} />
-        ))}
+        {categories &&
+          categories.map((menuItem) => (
+            <CategoryItem key={menuItem.id} category={menuItem} />
+          ))}
       </ul>
     </>
   );

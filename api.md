@@ -1,4 +1,4 @@
-# API TO GET ALL CATEGORIES / works
+# API TO GET ALL CATEGORIES
 
 # Endpoint
 
@@ -6,7 +6,7 @@ http://testapi.cognospheredynamics.com/api/v1/cart/get-all/category
 #Payload
 
     {
-        "perPage": "7",
+        "perPage": "50",
         "orderBy":"asc"
 
     }
@@ -61,7 +61,7 @@ http://testapi.cognospheredynamics.com/api/v1/cart/get-all/category
 }
 }
 
-# API TO GET SINGLE CATEGORY / working
+# API TO GET SINGLE CATEGORY
 
 # Endpoint
 
@@ -88,7 +88,7 @@ http://testapi.cognospheredynamics.com/api/v1/cart/get/category/3
 }
 }
 
-# API TO LOGIN USER / working
+# API TO LOGIN USER
 
 # Endpoint
 
@@ -117,7 +117,7 @@ http://testapi.cognospheredynamics.com/api/loginUser
 }
 }
 
-# API TO READ THE USER PROFILE
+#API TO READ THE USER PROFILE
 
 #Endpoint
 http://127.0.0.1:8000/api/v1/user/get/user/1
@@ -184,7 +184,7 @@ http://127.0.0.1:8000/api/logoutUser
 "message": "Successfully logged out"
 }
 
-# API TO GET ALL PRODUCT GALLARY / not working
+# API TO GET ALL PRODUCT GALLARY
 
 # Endpoint
 
@@ -253,7 +253,7 @@ http://127.0.0.1:8000/api/v1/users/get-all/ProductGallary
 }
 }
 
-# API TO GET SINGLE PRODUCTGALLARY / 
+# API TO GET SINGLE PRODUCTGALLARY
 
 # Endpoint
 
@@ -279,7 +279,7 @@ http://127.0.0.1:8000/api/v1/users/get/ProductGallary/1
 }
 }
 
-# API TO GET ALL PRODUCTS / works
+# API TO GET ALL PRODUCTS
 
 # Endpoint
 

@@ -1,37 +1,32 @@
-import { useState } from "react";
-import { useCallback } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import MenuItem from "../MenuItem/MenuItem";
 import styles from "./MenuList.module.css";
-
-// DUMMY SERVER
-// const BASE_URL = "http://localhost:8000/desserts";
+import useFetch from "../../../hooks/useFetch";
 
 function MenuList() {
   const [menu, setMenu] = useState([]);
 
-  const fetchMenu = useCallback(async () => {
-    try {
-      // const res = await fetch(BASE_URL);
-      // const data = await res.json();
-      // setDesserts(data);
+  const formData = {
+    perPage: "50",
+    orderBy: "asc",
+  };
 
-      const res = await fetch(`${import.meta.env.BASE_URL}/data/data.json`);
-      const data = await res.json();
-      setMenu(data.menu);
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
-
+  const { data } = useFetch(import.meta.env.VITE_PRODUCTS, {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: { "Content-Type": "application/json" },
+  });
   useEffect(() => {
-    fetchMenu();
-  }, [fetchMenu]);
+    if (data) {
+      setMenu(data.results.data);
+      console.log(data.results.data);
+    }
+  }, [data]);
 
   return (
     <ul className={styles.menuList}>
       {menu.map((menuItem) => (
-        <MenuItem key={menuItem.name} menu={menuItem} />
+        <MenuItem key={menuItem.id} menu={menuItem} />
       ))}
     </ul>
   );

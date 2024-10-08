@@ -12,6 +12,8 @@ const Detail = () => {
     return <p>No category data available.</p>;
   }
 
+  console.log(category);
+
   const targetCartItemIndex = cart.findIndex(
     (cartItem) => cartItem.name === category.name
   );
@@ -22,16 +24,18 @@ const Detail = () => {
     <main className="detail">
       <div className="mt-5 pt-5"></div>
       <div className="card border-0">
-        <img src={category.image.desktop} alt={category.name} />
+        <img
+          src={`${import.meta.env.VITE_IMAGE}/${category.image}`}
+          alt={category.name}
+        />
 
         <h1>{category.name}</h1>
         <h2 className="text-muted">{category.category}</h2>
 
         <p className="para-3 text-black fw-light">
           An easy and quick dish, perfect for any meal. This classic
-          {" " + category.category.toLowerCase() + " "} combines all the
-          goodness you expect in a delicious {" " + category.name.toLowerCase()}
-          .
+          {" " + category.name.toLowerCase() + " "} combines all the goodness
+          you expect in a delicious {" " + category.name.toLowerCase()}.
         </p>
 
         <div>
