@@ -108,3 +108,9 @@ body {
   border-width: 0 !important;
   font-size: 1.4rem;
 }
+
+@media (max-width: 768px) {
+  .main {
+    margin-top: 50px !important;
+  }
+}

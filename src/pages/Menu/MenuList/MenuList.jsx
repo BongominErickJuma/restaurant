@@ -2,32 +2,60 @@ import { useState, useEffect } from "react";
 import MenuItem from "../MenuItem/MenuItem";
 import styles from "./MenuList.module.css";
 import useFetch from "../../../hooks/useFetch";
+import { useLocation } from "react-router-dom";
 
 function MenuList() {
   const [menu, setMenu] = useState([]);
 
+  const location = useLocation();
+  const id = location.state.id;
+
   const formData = {
-    perPage: "50",
+    perPage: "4",
+    relationship: "products",
     orderBy: "asc",
   };
+  const { data, loading, error } = useFetch(
+    `${import.meta.env.VITE_SINGLE_CATEGORY}/${id}`,
+    {
+      method: "POST",
+      body: JSON.stringify(formData),
+      headers: { "Content-Type": "application/json" },
+    }
+  );
 
-  const { data } = useFetch(import.meta.env.VITE_PRODUCTS, {
-    method: "POST",
-    body: JSON.stringify(formData),
-    headers: { "Content-Type": "application/json" },
-  });
   useEffect(() => {
     if (data) {
-      setMenu(data.results.data);
-      console.log(data.results.data);
+      setMenu(data.data.category);
     }
   }, [data]);
 
+  if (loading) {
+    return (
+      <div className="container text-center">
+        <p className="para-1">Loading...</p>
+      </div>
+    ); // Show loading message while data is being fetched
+  }
+
+  if (error) {
+    return (
+      <div className="container text-center">
+        <p className="para-1">Error: {error.message}</p>
+      </div>
+    ); // Show error message if there's a problem
+  }
+
   return (
     <ul className={styles.menuList}>
-      {menu.map((menuItem) => (
-        <MenuItem key={menuItem.id} menu={menuItem} />
-      ))}
+      {menu.length > 0 ? (
+        menu.map((menuItem) => (
+          // <MenuItem key={menuItem.id} menu={menuItem} />
+          <MenuItem key={menuItem.id} menu={menuItem} />
+        ))
+      ) : (
+        <MenuItem key={menu.id} menu={menu} />
+      )}
     </ul>
   );
 }

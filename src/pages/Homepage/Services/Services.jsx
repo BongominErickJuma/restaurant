@@ -16,7 +16,7 @@ const Services = () => {
           perferendis sed! Sit neque nihil porro atque numquam, ex consequatur
           voluptatem.
         </p>
-        <Link to="/restaurant/categories" className="cta-btn">
+        <Link to="#" className="cta-btn">
           Book Now
         </Link>
       </div>

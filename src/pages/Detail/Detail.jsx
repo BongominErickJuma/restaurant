@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-
+import Image from "/images/image-waffle-desktop.jpg";
 import useCart from "../../hooks/useCart";
 import "./Detail.css";
 
@@ -7,15 +7,13 @@ const Detail = () => {
   const location = useLocation();
   const { cart, handleAddItemToCart, handleMinusItemFromCart } = useCart();
 
-  const category = location.state || {};
-  if (!category) {
-    return <p>No category data available.</p>;
+  const product = location.state || {};
+  if (!product) {
+    return <p>No product data available.</p>;
   }
 
-  console.log(category);
-
   const targetCartItemIndex = cart.findIndex(
-    (cartItem) => cartItem.name === category.name
+    (cartItem) => cartItem.name === product.name
   );
 
   const targetCartItem = cart[targetCartItemIndex];
@@ -25,17 +23,18 @@ const Detail = () => {
       <div className="mt-5 pt-5"></div>
       <div className="card border-0">
         <img
-          src={`${import.meta.env.VITE_IMAGE}/${category.image}`}
-          alt={category.name}
+          // src={`${import.meta.env.VITE_IMAGE}/${product.image}`}
+          src={Image}
+          alt={product.name}
         />
 
-        <h1>{category.name}</h1>
-        <h2 className="text-muted">{category.category}</h2>
+        <h1>{product.name}</h1>
+        <h2 className="text-muted">{product.product}</h2>
 
         <p className="para-3 text-black fw-light">
           An easy and quick dish, perfect for any meal. This classic
-          {" " + category.name.toLowerCase() + " "} combines all the goodness
-          you expect in a delicious {" " + category.name.toLowerCase()}.
+          {" " + product.name.toLowerCase() + " "} combines all the goodness you
+          expect in a delicious {" " + product.name.toLowerCase()}.
         </p>
 
         <div>
@@ -44,7 +43,7 @@ const Detail = () => {
               className="addBtn w-100 para-3"
               onClick={(e) => {
                 e.preventDefault();
-                handleAddItemToCart(category);
+                handleAddItemToCart(product);
               }}
             >
               Add To Cart
@@ -55,7 +54,7 @@ const Detail = () => {
                 className="btn__decrement"
                 onClick={(e) => {
                   e.preventDefault();
-                  handleMinusItemFromCart(category);
+                  handleMinusItemFromCart(product);
                 }}
               >
                 <svg
@@ -73,7 +72,7 @@ const Detail = () => {
                 className="btn__increment"
                 onClick={(e) => {
                   e.preventDefault();
-                  handleAddItemToCart(category);
+                  handleAddItemToCart(product);
                 }}
               >
                 <svg

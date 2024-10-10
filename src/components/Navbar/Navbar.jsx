@@ -70,14 +70,14 @@ const Navbar = () => {
           </li>
           <li onClick={() => handleToggleSideBar()}>
             <Link to="/restaurant/categories" className="para-1">
-              Categories
-            </Link>
-          </li>
-          <li onClick={() => handleToggleSideBar()}>
-            <Link to="/restaurant/menu" className="para-1">
               Menu
             </Link>
           </li>
+          {/* <li onClick={() => handleToggleSideBar()}>
+            <Link to="/restaurant/menu" className="para-1">
+              Menu
+            </Link>
+          </li> */}
         </ul>
         {isLoggedIn ? (
           <Link

@@ -16,12 +16,28 @@ const CategoryList = () => {
     body: JSON.stringify(formData),
     headers: { "Content-Type": "application/json" },
   });
+
   useEffect(() => {
     if (data) {
       setCategories(data.results.data);
-      console.log(data.results.data);
     }
   }, [data]);
+
+  if (loading) {
+    return (
+      <div className="container text-center">
+        <p className="para-1">Loading...</p>
+      </div>
+    ); // Show loading message while data is being fetched
+  }
+
+  if (error) {
+    return (
+      <div className="container text-center">
+        <p className="para-1">Error: {error.message}</p>
+      </div>
+    ); // Show error message if there's a problem
+  }
 
   return (
     <>

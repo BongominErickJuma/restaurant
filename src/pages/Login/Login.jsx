@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import Input from "../../components/UI/Forms/Input";
@@ -44,7 +44,8 @@ const Login = () => {
       localStorage.setItem("customer_token", data.access_token);
       navigate("/restaurant/dashboard");
     }
-  }, [data, error, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, error]); // Remove navigate from the dependency array
 
   return (
     <div className="container-fluid">

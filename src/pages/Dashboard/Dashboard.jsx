@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
 
@@ -48,7 +48,7 @@ function Dashboard() {
     handleImageChange(e);
   };
 
-  const handleLogout = (e) => {
+  const handleLogout = () => {
     localStorage.removeItem("customer_token");
     window.location.reload();
     navigate("/restaurant");
