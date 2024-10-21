@@ -2,6 +2,7 @@ import useCart from "../../../hooks/useCart";
 import "./CartItem.css";
 
 function CartItem({ cartItem }) {
+  console.log(cartItem);
   const { handleDeleteItemFromCart } = useCart();
 
   return (
@@ -10,11 +11,9 @@ function CartItem({ cartItem }) {
         <p className="cartItem__name para-3">{cartItem.name}</p>
         <article className="cartItem__subContainer">
           <p className="cartItem__count para-3">{cartItem.count}x</p>
-          <p className="cartItem__price para-2">
-            @ ${cartItem.price.toFixed(2)}
-          </p>
+          <p className="cartItem__price para-2">@ ${cartItem.price}</p>
           <p className="cartItem__total para-3">
-            ${(cartItem.count * cartItem.price).toFixed(2)}
+            ${cartItem.count * cartItem.price}
           </p>
         </article>
       </article>

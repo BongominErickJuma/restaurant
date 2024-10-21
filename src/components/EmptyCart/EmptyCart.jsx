@@ -12,7 +12,10 @@ function EmptyCart() {
       <p className={`${`cart__paragraph`} para-3`}>
         Your added items will appear here.
       </p>
-      <Link to="/restaurant/menu" className={`cart__btn para-3 text-black`}>
+      <Link
+        to="/restaurant/categories"
+        className={`cart__btn para-3 text-black`}
+      >
         Go to menu
       </Link>
     </section>
