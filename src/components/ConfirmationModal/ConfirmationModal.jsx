@@ -41,12 +41,12 @@ function ConfirmationModal() {
                       {cartItem.count}x
                     </p>
                     <p className={`para-2 ${styles.modal__cartItem__price}`}>
-                      @ {cartItem.price.toFixed(2)}
+                      @ {cartItem.price}
                     </p>
                   </article>
                 </article>
                 <p className={`para-1 ${styles.modal__cartItem__total}`}>
-                  ${(cartItem.count * cartItem.price).toFixed(2)}
+                  ${cartItem.count * cartItem.price}
                 </p>
               </li>
             );
