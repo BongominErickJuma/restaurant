@@ -19,8 +19,8 @@ function MenuItem({ menu }) {
       <picture>
         <img
           className="menu__image"
-          // src={`${import.meta.env.VITE_IMAGE}/${menu.image}`}
-          src={Image}
+          src={`${import.meta.env.VITE_IMAGE}/${menu.image}`}
+          // src={Image}
           alt={menu.name}
         />
       </picture>

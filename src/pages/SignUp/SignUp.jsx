@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/UI/Forms/Input";
 import useFetch from "../../hooks/useFetch";
+
 const SignUp = () => {
-  // state to hold inputs
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -11,14 +11,11 @@ const SignUp = () => {
     confirmPassword: "",
   });
 
-  // state to trigger form submission
   const [submitData, setSubmitData] = useState(false);
-
   const [passwordData, setPasswordData] = useState("");
-
   const navigate = useNavigate(); // Hook to programmatically navigate
 
-  // capture the data
+  // Handle input changes
   const handleChange = (event) => {
     setFormData({
       ...formData,
@@ -26,53 +23,49 @@ const SignUp = () => {
     });
   };
 
-  // Use the hook conditionally based on submitData
+  // Use useFetch conditionally based on submitData
   const { data, error, loading } = useFetch(
-    submitData ? "https://fakestoreapi.com/users" : null, // Only fetch when submitData is true
+    submitData ? "https://fakestoreapi.com/users" : null, // Only fetch if submitData is true
     {
       method: "POST",
-      data: {
+      body: JSON.stringify({
         email: formData.email,
         name: formData.name,
         password: formData.password,
-      },
+      }),
       headers: {
         "Content-Type": "application/json",
       },
     }
   );
 
-  // handle submit
+  // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      setPasswordData("Password did not match");
+      setPasswordData("Passwords did not match");
       return;
     }
 
     if (formData.password.length < 8) {
-      setPasswordData("Password password must be at least 8 characters");
+      setPasswordData("Password must be at least 8 characters");
       return;
     }
-    setSubmitData(true);
+
+    setSubmitData(true); // Trigger fetch request
   };
+
   useEffect(() => {
     if (data) {
-      // Store the token in local storage
-      setSubmitData(false);
-
-      // Redirect to the dashboard
-      navigate("/");
+      setSubmitData(false); // Reset submit state after success
+      navigate("/"); // Redirect to dashboard
     }
 
     if (error) {
-      // Reset submitData to false in case of error
-      setSubmitData(false);
+      setSubmitData(false); // Reset submit state after error
     }
-  }, [data, error]);
-
-  // fetch to send the form data
+  }, [data, error, navigate]); // Add navigate to the dependency array
 
   return (
     <div className="container-fluid">

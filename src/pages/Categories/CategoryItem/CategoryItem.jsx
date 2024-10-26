@@ -9,8 +9,8 @@ function CategoryItem({ category }) {
         <picture>
           <img
             className="category__image"
-            // src={`${import.meta.env.VITE_IMAGE}/${category.image}`}
-            src={Image}
+            src={`${import.meta.env.VITE_IMAGE}/${category.image}`}
+            // src={Image}
             alt={category.name}
           />
         </picture>

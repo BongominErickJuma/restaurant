@@ -15,6 +15,7 @@ function MenuList() {
     relationship: "products",
     orderBy: "asc",
   };
+
   const { data, loading, error } = useFetch(
     `${import.meta.env.VITE_SINGLE_CATEGORY}/${id}`,
     {
@@ -25,11 +26,10 @@ function MenuList() {
   );
 
   useEffect(() => {
-    if (data) {
-      setMenu(data.data.category);
+    if (data && data.data && data.data.results && data.data.results.data) {
+      setMenu(data.data.results.data);
     }
   }, [data]);
-
   if (loading) {
     return (
       <div className="container text-center">
@@ -37,6 +37,10 @@ function MenuList() {
       </div>
     ); // Show loading message while data is being fetched
   }
+
+  // if (error) {
+  //   alert(` ${error}`); // Trigger alert with the error message
+  // }
 
   if (error) {
     return (
@@ -50,11 +54,12 @@ function MenuList() {
     <ul className={styles.menuList}>
       {menu.length > 0 ? (
         menu.map((menuItem) => (
-          // <MenuItem key={menuItem.id} menu={menuItem} />
           <MenuItem key={menuItem.id} menu={menuItem} />
         ))
       ) : (
-        <MenuItem key={menu.id} menu={menu} />
+        <div className="container text-center">
+          <p className="para-1">Product not available</p>
+        </div>
       )}
     </ul>
   );
