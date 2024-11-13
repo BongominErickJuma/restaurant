@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
 
@@ -9,6 +9,10 @@ function Dashboard() {
   const [profileImage, setProfileImage] = useState(
     "https://via.placeholder.com/80"
   );
+  const [customerDetails, setCustomerDetails] = useState({
+    name: "Guest",
+    email: "guest@example.com",
+  });
   const [dragging, setDragging] = useState(false);
 
   const navigate = useNavigate();
@@ -50,9 +54,18 @@ function Dashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem("customer_token");
+    localStorage.removeItem("Cart_customer_Details");
     window.location.reload();
     navigate("/restaurant");
   };
+
+  useEffect(() => {
+    // Retrieve customer details from local storage
+    const storedCustomerDetails = localStorage.getItem("Cart_customer_Details");
+    if (storedCustomerDetails) {
+      setCustomerDetails(JSON.parse(storedCustomerDetails));
+    }
+  }, []);
 
   return (
     <div className="container mt-5">
@@ -148,8 +161,8 @@ function Dashboard() {
                     className="profile-pic me-3"
                   />
                   <div>
-                    <p className="para-3">Name: John Doe</p>
-                    <p className="para-3">Email: john.doe@example.com</p>
+                    <p className="para-3">Name: {customerDetails.name}</p>
+                    <p className="para-3">Email: {customerDetails.email}</p>
                   </div>
                 </div>
                 <button

@@ -2,7 +2,6 @@ import useCart from "../../../hooks/useCart";
 import "./CartItem.css";
 
 function CartItem({ cartItem }) {
-  console.log(cartItem);
   const { handleDeleteItemFromCart } = useCart();
 
   return (

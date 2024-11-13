@@ -42,6 +42,7 @@ const Login = () => {
     if (data) {
       setSubmitData(false);
       localStorage.setItem("customer_token", data.access_token);
+      localStorage.setItem("Cart_customer_Details", JSON.stringify(data.user));
       navigate("/restaurant/dashboard");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

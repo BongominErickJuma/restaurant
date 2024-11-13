@@ -1,10 +1,31 @@
+import { useState } from "react";
 import useCart from "../../hooks/useCart";
 import CartItem from "../../pages/Cart/CartItem/CartItem";
 import "./NonEmptyCart.css";
 
 function NonEmptyCart() {
   const { cart, handleConfirmOrder } = useCart();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
+
   const total = cart.reduce((acc, curr) => acc + curr.price * curr.count, 0);
+
+  const confirmOrder = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setSuccess(false);
+
+    try {
+      await handleConfirmOrder();
+      setSuccess(true);
+    } catch (err) {
+      setError("Failed to confirm order. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -20,23 +41,25 @@ function NonEmptyCart() {
         </p>
       </section>
       <section className={`cart__carbon`}>
-        <img
-          src={`${import.meta.env.BASE_URL}/images/icon-carbon-neutral.svg`}
-          alt="icon carbon"
-        />
-
-        <p className="para-2">
-          This is a <strong>Delivery type</strong> delivery
-        </p>
+        <button className="btn btn-sm btn-secondary para-1">
+          Pay on delivery
+        </button>{" "}
+        <button className="btn btn-sm btn-light" disabled>
+          Order with cash
+        </button>
       </section>
+      {/* Display loading, error, and success messages */}
+      {loading && <p className="loading para-2">Processing your order...</p>}
+      {error && <p className="error para-2">{error}</p>}
+      {success && (
+        <p className="text-success para-2">Order confirmed successfully!</p>
+      )}
       <button
         className={`cart__confirmBtn para-1`}
-        onClick={(e) => {
-          e.preventDefault();
-          handleConfirmOrder();
-        }}
+        onClick={confirmOrder}
+        disabled={loading}
       >
-        Confirm Order
+        {loading ? "Confirming..." : "Confirm Order"}
       </button>
     </>
   );

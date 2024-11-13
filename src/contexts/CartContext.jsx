@@ -1,10 +1,10 @@
-import { useReducer } from "react";
+import { useReducer, useEffect } from "react";
 import { createContext } from "react";
 
 const CartContext = createContext();
 
 const initialState = {
-  cart: [],
+  cart: JSON.parse(localStorage.getItem("cart")) || [], // Load from local storage or start with an empty cart
   showModal: false,
 };
 
@@ -37,17 +37,14 @@ const reducer = (state, action) => {
       );
       const existingCartItem = state.cart[existingCartItemIndex];
 
-      if (existingCartItem.count > 0) {
+      if (existingCartItem.count > 1) {
         const updatedItem = {
-          ...action.payload,
-          count: existingCartItem.count--,
+          ...existingCartItem,
+          count: existingCartItem.count - 1,
         };
-        let updatedItems = [...state.cart];
+        const updatedItems = [...state.cart];
         updatedItems[existingCartItemIndex] = updatedItem;
-        return {
-          ...state,
-          cart: updatedItems,
-        };
+        return { ...state, cart: updatedItems };
       } else {
         return {
           ...state,
@@ -83,6 +80,11 @@ const reducer = (state, action) => {
 function CartProvider({ children }) {
   const [{ cart, showModal }, dispatch] = useReducer(reducer, initialState);
 
+  // Save cart to localStorage whenever the cart changes
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
   const handleAddItemToCart = (item) => {
     dispatch({ type: "addItem", payload: item });
   };
@@ -95,12 +97,31 @@ function CartProvider({ children }) {
     dispatch({ type: "deleteItem", payload: item });
   };
 
-  const handleConfirmOrder = () => {
-    dispatch({ type: "confirmOrder" });
+  const handleConfirmOrder = async () => {
+    console.log("Submitting cart:", cart);
+    try {
+      const response = await fetch(import.meta.env.VITE_CONFIRM_ORDER, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ cart }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to confirm order");
+      }
+
+      // Dispatch to show the modal after successful submission
+      dispatch({ type: "confirmOrder" });
+    } catch (error) {
+      console.error("Error confirming order:", error);
+    }
   };
 
   const handleNewOrder = () => {
     dispatch({ type: "newOrder" });
+    localStorage.removeItem("cart"); // Clear cart from localStorage on new order
   };
 
   return (
