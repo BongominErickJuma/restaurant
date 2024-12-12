@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import Menu from "./pages/Menu/Menu/Menu";
 import MenuList from "./pages/Menu/MenuList/MenuList";
@@ -14,14 +15,26 @@ import Detail from "./pages/Detail/Detail";
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import ProtectedRoute from "./components/Protect/ProtectedRoute";
 
 function App() {
   const { showModal } = useCart();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const customer = localStorage.getItem("customer_token");
+
+    if (customer) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []); // Only run on initial render
   return (
     <>
       <Router>
         <div>
-          <Navbar />
+          <Navbar isLoggedIn={isLoggedIn} />
           <div className="main">
             <Routes>
               <Route exact path="/restaurant" element={<Home />} />
@@ -43,7 +56,14 @@ function App() {
                   </Categories>
                 }
               />
-              <Route exact path="/restaurant/cart" element={<Cart />} />
+
+              <Route
+                exact
+                path="/restaurant/cart"
+                element={
+                  <ProtectedRoute element={Cart} isLoggedIn={isLoggedIn} />
+                }
+              />
               <Route exact path="/restaurant/detail" element={<Detail />} />
               <Route exact path="/restaurant/signup" element={<SignUp />} />
               <Route exact path="/restaurant/login" element={<Login />} />

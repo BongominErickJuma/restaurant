@@ -8,8 +8,6 @@ const useFetch = (url, options) => {
 
   useEffect(() => {
     if (!url) return;
-
-    console.log(url);
     const fetchData = async () => {
       setLoading(true);
       try {

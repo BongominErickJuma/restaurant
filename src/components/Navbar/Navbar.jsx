@@ -3,27 +3,15 @@ import useCart from "../../hooks/useCart";
 import "./Navbar.css";
 import { Link, NavLink } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ isLoggedIn }) => {
   const { cart } = useCart();
   const cartRef = useRef(null);
   const prevCartLength = useRef(cart.length);
   const [isSidebarToggled, setIsSidebarToggled] = useState(false);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Default to false
-
   const handleToggleSideBar = () => {
     setIsSidebarToggled(!isSidebarToggled);
   };
-
-  useEffect(() => {
-    const customer = localStorage.getItem("customer_token");
-
-    if (customer) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []); // Only run on initial render
 
   useEffect(() => {
     if (cart.length > prevCartLength.current) {
@@ -73,20 +61,18 @@ const Navbar = () => {
               Menu
             </Link>
           </li>
-          {/* <li onClick={() => handleToggleSideBar()}>
-            <Link to="/restaurant/menu" className="para-1">
-              Menu
-            </Link>
-          </li> */}
+          {isLoggedIn && (
+            <li onClick={() => handleToggleSideBar()}>
+              <Link
+                to="/restaurant/dashboard"
+                className="para-1 me-3 text-decoration-none text-black"
+              >
+                Dashboard
+              </Link>
+            </li>
+          )}
         </ul>
-        {isLoggedIn ? (
-          <Link
-            to="/restaurant/dashboard"
-            className="para-1 me-3 text-decoration-none text-black"
-          >
-            Dashboard
-          </Link>
-        ) : (
+        {!isLoggedIn && (
           <Link
             to="/restaurant/login"
             className="btn bg-danger text-white fs-5 me-3"

@@ -98,21 +98,39 @@ function CartProvider({ children }) {
   };
 
   const handleConfirmOrder = async () => {
-    console.log("Submitting cart:", cart);
+    const token = localStorage.getItem("customer_token");
+    const user = JSON.parse(localStorage.getItem("Cart_customer_Details"));
+
+    const selectedItems = {
+      user_id: user.id,
+      products: cart,
+      comment: "",
+    };
+
+    console.log(selectedItems);
+
     try {
       const response = await fetch(import.meta.env.VITE_CONFIRM_ORDER, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ cart }),
+        body: JSON.stringify(selectedItems),
       });
+      // Get the status code
+
+      const res = await response.json();
+      console.log(res);
+
+      const statusCode = response.status;
+      console.log("Status Code:", statusCode);
 
       if (!response.ok) {
         throw new Error("Failed to confirm order");
       }
 
-      // Dispatch to show the modal after successful submission
       dispatch({ type: "confirmOrder" });
     } catch (error) {
       console.error("Error confirming order:", error);
@@ -121,7 +139,7 @@ function CartProvider({ children }) {
 
   const handleNewOrder = () => {
     dispatch({ type: "newOrder" });
-    localStorage.removeItem("cart"); // Clear cart from localStorage on new order
+    localStorage.removeItem("cart");
   };
 
   return (

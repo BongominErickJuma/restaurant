@@ -1,20 +1,21 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./Login.css";
 import Input from "../../components/UI/Forms/Input";
 import useFetch from "../../hooks/useFetch";
 
 const Login = () => {
-  const navigate = useNavigate(); // Hook to programmatically navigate
-
+  const navigate = useNavigate();
+  const location = useLocation();
   const [submitData, setSubmitData] = useState(false);
-  // state to handle form data
+
+  // State to handle form data
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  // capture the data
+  // Capture the data
   const handleChange = (event) => {
     setFormData({
       ...formData,
@@ -22,7 +23,7 @@ const Login = () => {
     });
   };
 
-  // handle submit
+  // Handle submit
   const handleSubmit = (event) => {
     event.preventDefault();
     setSubmitData(true);
@@ -41,12 +42,21 @@ const Login = () => {
   useEffect(() => {
     if (data) {
       setSubmitData(false);
+
+      // Save user details and token to localStorage
       localStorage.setItem("customer_token", data.access_token);
       localStorage.setItem("Cart_customer_Details", JSON.stringify(data.user));
-      navigate("/restaurant/dashboard");
+
+      // Redirect to the intended path or default to dashboard
+      const dashboardPath = "/restaurant/dashboard";
+      const prevLocation = location.state?.from?.pathname;
+      const redirectPath = prevLocation ? prevLocation : dashboardPath;
+
+      console.log(redirectPath);
+      navigate(redirectPath); // Replace prevents navigating back to login
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, error]); // Remove navigate from the dependency array
+  }, [data]);
 
   return (
     <div className="container-fluid">
@@ -75,9 +85,6 @@ const Login = () => {
           </form>
 
           {error && <p className="text-danger para-2">Error: {error}</p>}
-          {data && (
-            <p className="text-success para-2">Admin Login successfully!</p>
-          )}
 
           <div className="d-flex align-items-center justify-content-between mt-3">
             <div className="form-check">
@@ -95,7 +102,7 @@ const Login = () => {
 
             <div className="form-check">
               <a className="forgot-password text-end para-2" href="#">
-                forgot password
+                Forgot password
               </a>
             </div>
           </div>

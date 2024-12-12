@@ -2,12 +2,14 @@ import { useState } from "react";
 import useCart from "../../hooks/useCart";
 import CartItem from "../../pages/Cart/CartItem/CartItem";
 import "./NonEmptyCart.css";
+import { useNavigate } from "react-router-dom";
 
 function NonEmptyCart() {
   const { cart, handleConfirmOrder } = useCart();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
 
   const total = cart.reduce((acc, curr) => acc + curr.price * curr.count, 0);
 
@@ -21,7 +23,10 @@ function NonEmptyCart() {
       await handleConfirmOrder();
       setSuccess(true);
     } catch (err) {
-      setError("Failed to confirm order. Please try again.");
+      setError("Failed to confirm order. Please Login.");
+      setTimeout(() => {
+        navigate("/restaurant/login");
+      }, 3000);
     } finally {
       setLoading(false);
     }
