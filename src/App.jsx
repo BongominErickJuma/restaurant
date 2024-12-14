@@ -1,6 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route ,Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-
 import Menu from "./pages/Menu/Menu/Menu";
 import MenuList from "./pages/Menu/MenuList/MenuList";
 import Cart from "./pages/Cart/Cart/Cart";
@@ -15,21 +14,16 @@ import Detail from "./pages/Detail/Detail";
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import ProtectedRoute from "./components/Protect/ProtectedRoute";
 
 function App() {
   const { showModal } = useCart();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+
   useEffect(() => {
     const customer = localStorage.getItem("customer_token");
-
-    if (customer) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []); // Only run on initial render
+    setIsLoggedIn(!!customer); // Set based on token presence
+  }, []);
   return (
     <>
       <Router>
@@ -61,7 +55,7 @@ function App() {
                 exact
                 path="/restaurant/cart"
                 element={
-                  <ProtectedRoute element={Cart} isLoggedIn={isLoggedIn} />
+                  isLoggedIn ? <Cart /> : <Navigate to="/restaurant/login" />
                 }
               />
               <Route exact path="/restaurant/detail" element={<Detail />} />

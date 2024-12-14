@@ -47,13 +47,15 @@ const Login = () => {
       localStorage.setItem("customer_token", data.access_token);
       localStorage.setItem("Cart_customer_Details", JSON.stringify(data.user));
 
-      // Redirect to the intended path or default to dashboard
-      const dashboardPath = "/restaurant/dashboard";
-      const prevLocation = location.state?.from?.pathname;
-      const redirectPath = prevLocation ? prevLocation : dashboardPath;
+      console.log(data.access_token)
+            console.log(data.user)
 
-      console.log(redirectPath);
-      navigate(redirectPath); // Replace prevents navigating back to login
+            const fromPath = location.state?.from?.pathname || "/restaurant";
+            
+            console.log(fromPath)
+
+      // Navigate to the previous page or default route
+      navigate(fromPath, { replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
