@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+// src/pages/Login/Login.jsx
+import { useState, useEffect, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import "./Login.css";
 import Input from "../../components/UI/Forms/Input";
 import useFetch from "../../hooks/useFetch";
+import AuthContext from '../../contexts/AuthContext.jsx';
 
 const Login = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { handleLogin, previousUrl } = useContext(AuthContext);
   const [submitData, setSubmitData] = useState(false);
 
   // State to handle form data
@@ -47,15 +49,13 @@ const Login = () => {
       localStorage.setItem("customer_token", data.access_token);
       localStorage.setItem("Cart_customer_Details", JSON.stringify(data.user));
 
-      console.log(data.access_token)
-            console.log(data.user)
-
-            const fromPath = location.state?.from?.pathname || "/restaurant";
-            
-            console.log(fromPath)
+      // Call the handleLogin function to update the isLoggedIn state in AuthContext
+      handleLogin();
 
       // Navigate to the previous page or default route
-      navigate(fromPath, { replace: true });
+      console.log(`Navigating to previous URL: ${previousUrl}`);
+      const redirectUrl = previousUrl === '/restaurant/menu' ? '/restaurant/categories' : previousUrl;
+      navigate(redirectUrl, { replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);

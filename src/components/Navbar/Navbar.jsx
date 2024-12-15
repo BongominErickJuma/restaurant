@@ -1,3 +1,4 @@
+// src/components/Navbar/Navbar.jsx
 import { useEffect, useRef, useState } from "react";
 import useCart from "../../hooks/useCart";
 import "./Navbar.css";

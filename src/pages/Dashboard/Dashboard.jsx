@@ -1,8 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../contexts/AuthContext.jsx";
 
-function Dashboard() {
+const Dashboard = () => {
+  const { handleLogout } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [balanceVisible, setBalanceVisible] = useState(false);
   const [bookedTable, setBookedTable] = useState(null);
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
@@ -14,8 +17,6 @@ function Dashboard() {
     email: "guest@example.com",
   });
   const [dragging, setDragging] = useState(false);
-
-  const navigate = useNavigate();
 
   const toggleBalanceVisibility = () => {
     setBalanceVisible(!balanceVisible);
@@ -52,11 +53,8 @@ function Dashboard() {
     handleImageChange(e);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("customer_token");
-    localStorage.removeItem("Cart_customer_Details");
-    window.location.reload();
-    navigate("/restaurant");
+  const onLogout = () => {
+    handleLogout(navigate);
   };
 
   useEffect(() => {
@@ -105,7 +103,7 @@ function Dashboard() {
                   <div className="card-body d-flex flex-column align-items-center justify-content-center">
                     <button
                       className="btn btn-danger w-100"
-                      onClick={handleLogout}
+                      onClick={onLogout}
                     >
                       Logout
                     </button>
@@ -261,6 +259,6 @@ function Dashboard() {
       </div>
     </div>
   );
-}
+};
 
 export default Dashboard;

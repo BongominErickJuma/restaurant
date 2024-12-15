@@ -26,7 +26,7 @@ function MenuList() {
   );
 
   useEffect(() => {
-    if (data && data.data && data.data.results && data.data.results.data) {
+        if (data && data.data && data.data.results && data.data.results.data) {
       setMenu(data.data.results.data);
     }
   }, [data]);
